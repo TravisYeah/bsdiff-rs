@@ -206,10 +206,12 @@ fn search(I: &[isize], old: &[u8], new: &[u8]) -> (isize, usize) {
 #[inline]
 fn offtout(x: isize, buf: &mut [u8]) {
     if x >= 0 {
-        buf.copy_from_slice(&x.to_le_bytes());
+        let cp = &x.to_le_bytes();
+        buf[0..cp.len()].copy_from_slice(cp);
     } else {
         let tmp = (-x) as usize | (1 << 63);
-        buf.copy_from_slice(&tmp.to_le_bytes());
+        let cp = &tmp.to_le_bytes();
+        buf[0..cp.len()].copy_from_slice(cp);
     }
 }
 
